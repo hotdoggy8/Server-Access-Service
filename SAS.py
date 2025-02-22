@@ -1,13 +1,79 @@
 from tkinter import *
 from tkinter import ttk
+import random
+import time
 
 name = None
 UsrnameField = None
 LWindow = None
 SWindow = None
+MWindow = None
+LDWindow = None
+
+def scanv():
+    ScanDone = False
+    SVWindow = Tk()
+    SVWindow.title("Scan Viruses")
+    ScanText = Label(SVWindow, text="Scanning Viruses...")
+    ScanText.pack()
+    Progress = ttk.Progressbar(SVWindow, orient="horizontal", length=200, mode="determinate")
+    Progress.pack()
+    Progress["value"] = 0
+    def scanprogress(value=0):
+        if Progress["value"] >= 100:
+            ScanDone = True
+        if value <= 100:
+            Progress["value"] = value
+            choice1 = random.randint(0, 1)
+            if choice1 == 1:
+                choice2 = random.randint(0, 1)
+                if choice2 == 1:
+                    time.sleep(random.uniform(0.5, 1.0))
+            LDWindow.after(10, scanprogress, value + 1)
+    scanprogress()
+    while True:
+        if ScanDone:
+            break
+    print("process done")
+
+def hackwindow():
+    global LDWindow
+    LDWindow.destroy()
+    HWindow = Tk()
+    HWindow.title("Control Panel")
+    BrandTxt = Label(HWindow, text="Server Access Service",width=20,height=2,bg="black",fg="green",font=("Times New Roman", 20, "bold"))
+    CtrlTxt = Label(HWindow, text="Control Panel",width=25,height=2)
+    ScanVirus = Button(HWindow, text = "Scan Viruses", command=scanv)
+    BrandTxt.pack()
+    CtrlTxt.pack()
+    ScanVirus.pack()
+
+def cntwindow():
+    global LDWindow
+    MWindow.destroy()
+    LDWindow = Tk()
+    LDWindow.title("Progress")
+    CntText = Label(LDWindow, text="Connecting...")
+    Progress = ttk.Progressbar(LDWindow, orient="horizontal", length=200, mode="determinate")
+    CntText.pack()
+    Progress.pack()
+    Progress["value"] = 0
+    def connectprogress(value=0):
+        if Progress["value"] >= 100:
+            hackwindow()
+        if value <= 100:
+            Progress["value"] = value
+            choice1 = random.randint(0, 1)
+            if choice1 == 1:
+                choice2 = random.randint(0, 1)
+                if choice2 == 1:
+                    time.sleep(random.uniform(0.5, 1.0))
+            LDWindow.after(10, connectprogress, value + 1)
+    connectprogress()
 
 def startwindow():
     global name
+    global MWindow
     MWindow = Tk()
     MWindow.title("Server information")
     BrandTxt = Label(MWindow, text="Server Access Service",width=20,height=2,bg="black",fg="green",font=("Times New Roman", 20, "bold"))
@@ -15,10 +81,12 @@ def startwindow():
     Serverask = Label(MWindow, text="Server address:",width=40,height=2)
     Serveradd = ttk.Combobox(MWindow)
     Serveradd["values"] = ("192.168.1.3", "192.168.3.255", "127.0.0.1")
+    Confirm = Button(MWindow, text="Connect", command=cntwindow)
     BrandTxt.pack()
     UsrText.pack()
     Serverask.pack()
     Serveradd.pack()
+    Confirm.pack()
 
 def finish():
     global name
