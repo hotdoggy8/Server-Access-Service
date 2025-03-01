@@ -14,6 +14,25 @@ LDWindow = None
 def scanv2():
     global SVWindow
     SVWindow.destroy()
+    SVRWindow = Tk()
+    SVRWindow.title("Result")
+    ResultTxt = Label(SVRWindow, text="Results:")
+    ResultTxt.pack()
+    hasVirus = random.randint(0, 1)
+    if hasVirus == 1:
+        VirusNum = random.randint(1, 100)
+        WarningTxt = Label(SVRWindow, text="Your server is infected with viruses!", fg="red")
+        VNumTxt = Label(SVRWindow, text="Virus counter: " + str(VirusNum) + " Viruses", fg="red")
+        RemoveVirusBtn = Button(SVRWindow, text="Remove all viruses", command=SVRWindow.destroy)
+        WarningTxt.pack()
+        VNumTxt.pack()
+        RemoveVirusBtn.pack()
+    elif hasVirus == 0:
+        NormalResult = Label(SVRWindow, text="No virus detected", fg="green")
+        BackBtn = Button(SVRWindow, text="Return", command=SVRWindow.destroy)
+        NormalResult.pack()
+        BackBtn.pack()
+
 
 def scanv1():
     global SVWindow
