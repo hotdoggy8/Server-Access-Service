@@ -3,6 +3,16 @@ from tkinter import ttk
 import random
 import time
 
+commonnames = [
+    "James", "Michael", "John", "David",
+    "William", "Richard", "Joseph", "Thomas",
+    "Christopher", "Charles", "Daniel", "Mark", "Donald",
+    "Steve", "Andrew", "Paul", "Alex",
+    "Mike", "Dan", "Kevin", "Brian",
+    "Ronald", "Nick", "Jason", "Ryan",
+    "Gary", "Eric", "Larry", "Jacob"
+]
+
 name = None
 UsrnameField = None
 LWindow = None
@@ -10,6 +20,23 @@ SWindow = None
 SVWindow = None
 MWindow = None
 LDWindow = None
+NameList = []
+
+def removePpl():
+    URWindow = Tk()
+    URWindow.title("Remove users")
+    URWTxt = Label(URWindow, text="Manage users")
+    UserSelect = ttk.Combobox(URWindow, values=NameList)
+    def kickppl():
+        del NameList[UserSelect["values"].index(UserSelect.get())]
+        UserSelect.set("")
+        UserSelect["values"] = NameList
+    KickBtn = Button(URWindow, text="Kick User", command=kickppl)
+    ExitBtn = Button(URWindow, text="Exit", command=URWindow.destroy)
+    UserSelect.pack()
+    URWTxt.pack()
+    KickBtn.pack()
+    ExitBtn.pack()
 
 def scanv2():
     global SVWindow
@@ -59,15 +86,18 @@ def scanv1():
 
 def hackwindow():
     global LDWindow
+    print(NameList)
     LDWindow.destroy()
     HWindow = Tk()
     HWindow.title("Control Panel")
     BrandTxt = Label(HWindow, text="Server Access Service",width=20,height=2,bg="black",fg="green",font=("Times New Roman", 20, "bold"))
     CtrlTxt = Label(HWindow, text="Control Panel",width=25,height=2)
     ScanVirus = Button(HWindow, text = "Scan Viruses", command=scanv1)
+    RemovePPL = Button(HWindow, text = "Remove Users", command=removePpl)
     BrandTxt.pack()
     CtrlTxt.pack()
     ScanVirus.pack()
+    RemovePPL.pack()
 
 def cntwindow():
     global LDWindow
@@ -81,6 +111,10 @@ def cntwindow():
     Progress["value"] = 0
     def connectprogress(value=0):
         if Progress["value"] >= 100:
+            global NameList
+            NumOfNames = random.randint(1, 24)
+            for i in range(NumOfNames):
+                NameList.append(commonnames[random.randint(0, len(commonnames)-1)] + commonnames[random.randint(0, len(commonnames)-1)])
             hackwindow()
         if value <= 100:
             Progress["value"] = value
