@@ -20,7 +20,53 @@ SWindow = None
 SVWindow = None
 MWindow = None
 LDWindow = None
+HWindow = None
 NameList = []
+
+def startwindow():
+    global name
+    global MWindow
+    MWindow = Tk()
+    MWindow.title("Server information")
+    BrandTxt = Label(MWindow, text="Server Access Service",width=20,height=2,bg="black",fg="green",font=("Times New Roman", 20, "bold"))
+    UsrText = Label(MWindow, text="You're logged in as: "+name)
+    Serverask = Label(MWindow, text="Server address:",width=40,height=2)
+    Serveradd = ttk.Combobox(MWindow)
+    Serveradd["values"] = ("192.168.1.3", "192.168.3.255", "127.0.0.1")
+    Confirm = Button(MWindow, text="Connect", command=cntwindow)
+    BrandTxt.pack()
+    UsrText.pack()
+    Serverask.pack()
+    Serveradd.pack()
+    Confirm.pack()
+
+def disconnectServer():
+    DSWindow = Tk()
+    DSWindow.title("Confirm disconnect")
+    DSWTxt = Label(DSWindow, text="Are you sure you want to disconnect from the server? \nThis will disconnect yourself from the server")
+    def serverDisconnect():
+        HWindow.destroy()
+        startwindow()
+        DSWindow.destroy()
+    ConfirmBtn = Button(DSWindow, text="Yes", command=serverDisconnect)
+    DenyBtn = Button(DSWindow, text="No", command=DSWindow.destroy)
+    DSWTxt.pack()
+    ConfirmBtn.pack()
+    DenyBtn.pack()
+
+def shutdownServer():
+    SSWindow = Tk()
+    SSWindow.title("Confirm shutdown")
+    SSWTxt = Label(SSWindow, text="Are you sure you want to shut down the server? \nThis will shutdown the server and close the control panel")
+    def serverShutdown():
+        HWindow.destroy()
+        startwindow()
+        SSWindow.destroy()
+    ConfirmBtn = Button(SSWindow, text="Yes", command=serverShutdown)
+    DenyBtn = Button(SSWindow, text="No", command=SSWindow.destroy)
+    SSWTxt.pack()
+    ConfirmBtn.pack()
+    DenyBtn.pack()
 
 def listPpl():
     PLWindow = Tk()
@@ -112,6 +158,7 @@ def scanv1():
 
 def hackwindow():
     global LDWindow
+    global HWindow
     LDWindow.destroy()
     HWindow = Tk()
     HWindow.title("Control Panel")
@@ -121,12 +168,16 @@ def hackwindow():
     RemovePPL = Button(HWindow, text = "Remove Users", command=removePpl)
     AddPPL = Button(HWindow, text = "Add Users", command=addPpl)
     ListPPL = Button(HWindow, text = "List Users", command=listPpl)
+    ShutdownSVR = Button(HWindow, text = "Shutdown Server", command=shutdownServer)
+    DisconnectSVR = Button(HWindow, text = "Disconnect Server", command=disconnectServer)
     BrandTxt.pack()
     CtrlTxt.pack()
     ScanVirus.pack()
     RemovePPL.pack()
     AddPPL.pack()
     ListPPL.pack()
+    ShutdownSVR.pack()
+    DisconnectSVR.pack()
 
 def cntwindow():
     global LDWindow
@@ -154,23 +205,6 @@ def cntwindow():
                     time.sleep(random.uniform(0.5, 1.0))
             LDWindow.after(10, connectprogress, value + 1)
     connectprogress()
-
-def startwindow():
-    global name
-    global MWindow
-    MWindow = Tk()
-    MWindow.title("Server information")
-    BrandTxt = Label(MWindow, text="Server Access Service",width=20,height=2,bg="black",fg="green",font=("Times New Roman", 20, "bold"))
-    UsrText = Label(MWindow, text="You're logged in as: "+name)
-    Serverask = Label(MWindow, text="Server address:",width=40,height=2)
-    Serveradd = ttk.Combobox(MWindow)
-    Serveradd["values"] = ("192.168.1.3", "192.168.3.255", "127.0.0.1")
-    Confirm = Button(MWindow, text="Connect", command=cntwindow)
-    BrandTxt.pack()
-    UsrText.pack()
-    Serverask.pack()
-    Serveradd.pack()
-    Confirm.pack()
 
 def finish():
     global name
