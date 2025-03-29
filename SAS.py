@@ -22,10 +22,35 @@ MWindow = None
 LDWindow = None
 NameList = []
 
+def listPpl():
+    PLWindow = Tk()
+    scrollbar = Scrollbar(PLWindow)
+    scrollbar.pack(side=RIGHT, fill=Y)
+    PplList = Listbox(PLWindow, yscrollcommand=scrollbar.set)
+    for line in range(len(NameList)):
+        mylist.insert(END, NameList[line])
+    PplList.pack(side=LEFT, fill=BOTH)
+    scrollbar.config(command=mylist.yview)
+
+def addPpl():
+    UAWindow = Tk()
+    UAWindow.title("Add users")
+    UAWTxt = Label(UAWindow, text="Add users")
+    UsernameBox = Entry(UAWindow)
+    def addppl():
+        NameList.append(UsernameBox.get())
+        UsernameBox.set("")
+    AddBtn = Button(UAWindow, text="Add user", command=addppl)
+    ExitBtn = Button(UAWindow, text="Exit", command=UAWindow.destroy)
+    UAWTxt.pack()
+    UsernameBox.pack()
+    AddBtn.pack()
+    ExitBtn.pack()
+
 def removePpl():
     URWindow = Tk()
     URWindow.title("Remove users")
-    URWTxt = Label(URWindow, text="Manage users")
+    URWTxt = Label(URWindow, text="Remove users")
     UserSelect = ttk.Combobox(URWindow, values=NameList)
     def kickppl():
         del NameList[UserSelect["values"].index(UserSelect.get())]
@@ -86,7 +111,6 @@ def scanv1():
 
 def hackwindow():
     global LDWindow
-    print(NameList)
     LDWindow.destroy()
     HWindow = Tk()
     HWindow.title("Control Panel")
@@ -94,10 +118,14 @@ def hackwindow():
     CtrlTxt = Label(HWindow, text="Control Panel",width=25,height=2)
     ScanVirus = Button(HWindow, text = "Scan Viruses", command=scanv1)
     RemovePPL = Button(HWindow, text = "Remove Users", command=removePpl)
+    AddPPL = Button(HWindow, text = "Add Users", command=addPpl)
+    ListPPL = Button(HWindow, text = "List Users", command=listPpl)
     BrandTxt.pack()
     CtrlTxt.pack()
     ScanVirus.pack()
     RemovePPL.pack()
+    AddPPL.pack()
+    ListPPL.pack()
 
 def cntwindow():
     global LDWindow
@@ -114,7 +142,7 @@ def cntwindow():
             global NameList
             NumOfNames = random.randint(1, 24)
             for i in range(NumOfNames):
-                NameList.append(commonnames[random.randint(0, len(commonnames)-1)] + commonnames[random.randint(0, len(commonnames)-1)])
+                NameList.append(commonnames[random.randint(0, len(commonnames)-1)] + " " + commonnames[random.randint(0, len(commonnames)-1)])
             hackwindow()
         if value <= 100:
             Progress["value"] = value
