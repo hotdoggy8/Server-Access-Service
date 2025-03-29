@@ -24,13 +24,14 @@ NameList = []
 
 def listPpl():
     PLWindow = Tk()
+    PLWindow.title("Users List")
     scrollbar = Scrollbar(PLWindow)
     scrollbar.pack(side=RIGHT, fill=Y)
     PplList = Listbox(PLWindow, yscrollcommand=scrollbar.set)
     for line in range(len(NameList)):
-        mylist.insert(END, NameList[line])
+        PplList.insert(END, NameList[line])
     PplList.pack(side=LEFT, fill=BOTH)
-    scrollbar.config(command=mylist.yview)
+    scrollbar.config(command=PplList.yview)
 
 def addPpl():
     UAWindow = Tk()
@@ -39,7 +40,7 @@ def addPpl():
     UsernameBox = Entry(UAWindow)
     def addppl():
         NameList.append(UsernameBox.get())
-        UsernameBox.set("")
+        UsernameBox.delete(0, END)
     AddBtn = Button(UAWindow, text="Add user", command=addppl)
     ExitBtn = Button(UAWindow, text="Exit", command=UAWindow.destroy)
     UAWTxt.pack()
